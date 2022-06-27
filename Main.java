@@ -1,10 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,15 +21,11 @@ import javax.swing.JToolBar;
 public class Main extends JFrame
 {
 	public Main() {}
-	
-	private static final int SCREEN_WIDTH    = 2560;
-	private static final int SCREEN_HEIGHT   = 1400;
-	private static final int SPAWN_OFFSET    = 100;
-	private static final int TOOL_BAR_OFFSET = 100;
 
 	private static int antNum = 0;
 	private static long antSteps = 0;
 	private static boolean sleep = false;
+	private static Dimension screen; 
 	
 	public static void main(String[] args)
 	{
@@ -34,8 +33,9 @@ public class Main extends JFrame
 		JPanel antPanel = new JPanel(new BorderLayout());
 		JPanel drawPanel = new JPanel();
 		mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		mainFrame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		drawPanel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT - TOOL_BAR_OFFSET);
+		screen = Toolkit.getDefaultToolkit().getScreenSize();
+		mainFrame.setSize(screen.width, screen.height);
+		drawPanel.setSize(screen.width, screen.height);
 		drawPanel.setBackground(Color.black);
 		
 		JTextField antNumText = new JTextField("1");	
@@ -100,13 +100,13 @@ public class Main extends JFrame
 		{
 			Langton lang = new Langton
 			(
-				rand.nextInt((SCREEN_WIDTH) - SPAWN_OFFSET) + SPAWN_OFFSET,
-				rand.nextInt((SCREEN_HEIGHT) - SPAWN_OFFSET) + SPAWN_OFFSET,
+				rand.nextInt(screen.width),
+				rand.nextInt(screen.height),
 				g2d,
 				new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)),
 				antSteps,
-				SCREEN_WIDTH,
-				SCREEN_HEIGHT,
+				screen.width,
+				screen.height,
 				sleep
 			);	
 			
