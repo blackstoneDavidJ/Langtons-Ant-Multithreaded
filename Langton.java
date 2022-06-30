@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -15,6 +17,9 @@ public class Langton extends JPanel implements Runnable
 	private volatile boolean sleep;
 	private static volatile int[][] grid;
 	
+	private final AtomicBoolean running = new AtomicBoolean(false);
+	private static Thread worker;
+	
 	public Langton(int antX, int antY, Graphics2D g2d, Color col, long antSteps, int screenWidth, int screenHeight, boolean sleep) 
 	{
 		this.antX = antX;
@@ -27,9 +32,16 @@ public class Langton extends JPanel implements Runnable
 		this.screenHeight = screenHeight;
 		grid = new int[screenWidth][screenHeight];
 	}
-
-	public Langton() 
+	
+	public void start()
 	{
+		worker = new Thread(this);
+		worker.start();	
+	}
+	
+	public void stop()
+	{
+		running.set(false);
 	}
 
 	public synchronized static void drawPixel(int x, int y, Graphics2D g2d, Color col, boolean white) 
@@ -47,10 +59,12 @@ public class Langton extends JPanel implements Runnable
 		return (grid[x][y] == 0);
 	}
 	
-	public synchronized void run()
+	public void run()
 	{
+		running.set(true);
+
 		Direction antDirection = Direction.N;
-		for(int i = 0; i < antSteps; i++)
+		for(int i = 0; i < antSteps && running.get(); i++)
 		{
 			if(antX > screenWidth -1) 
 				antX = 0;
@@ -124,6 +138,7 @@ public class Langton extends JPanel implements Runnable
 				catch (InterruptedException e) {}
 			}
 		}
+		
 	}
 	
 	public enum Direction
