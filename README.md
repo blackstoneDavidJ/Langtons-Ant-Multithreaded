@@ -34,3 +34,11 @@ Simplicity. During the first few hundred moves it creates very simple patterns w
 Chaos. After a few hundred moves, a large, irregular pattern of black and white squares appears. The ant traces a pseudo-random path until around 10,000 steps.
 Emergent order. Finally the ant starts building a recurrent "highway" pattern of 104 steps that repeats indefinitely.
 All finite initial configurations tested eventually converge to the same repetitive pattern, suggesting that the "highway" is an attractor of Langton's ant, but no one has been able to prove that this is true for all such initial configurations. It is only known that the ant's trajectory is always unbounded regardless of the initial configuration[4] – this is known as the Cohen-Kong theorem.
+
+Animation of first 200 steps of Langton's ant (looks a bit different with 100 of them! :D )
+![LangtonsAntAnimated](https://user-images.githubusercontent.com/62959991/176578549-87c6aeba-712f-4ac0-9b73-ee1bc0a1658b.gif)
+
+Source: https://en.wikipedia.org/wiki/Langton%27s_ant
+
+
+
